@@ -206,13 +206,34 @@ def run_detection_loop(model, camera_index: int = 0,
         raise RuntimeError(f"Could not open camera {camera_index}. "
                            "Check that a webcam is connected.")
 
+    # Warm up: cameras (especially on macOS) often need a moment before
+    # they start delivering frames. Don't die on the first empty read.
+    frame = None
+    for _ in range(60):
+        ok, frame = cap.read()
+        if ok and frame is not None:
+            break
+        time.sleep(0.05)
+    else:
+        cap.release()
+        raise RuntimeError(
+            f"Camera {camera_index} opened but delivered no frames. "
+            "If another app (Zoom, Photo Booth, browser) is using the "
+            "webcam, close it and try again.")
+
     prev_t = time.time()
+    misses = 0
     try:
         while True:
             ok, frame = cap.read()
-            if not ok:
-                print("Warning: failed to read frame from camera.")
-                break
+            if not ok or frame is None:
+                misses += 1
+                if misses > 30:
+                    print("Warning: lost camera feed.")
+                    break
+                time.sleep(0.02)
+                continue
+            misses = 0
 
             detections = detect_objects(model, frame, conf_threshold)
             annotated = draw_detections(frame, detections)
