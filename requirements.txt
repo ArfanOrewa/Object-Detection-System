@@ -1,0 +1,6 @@
+# Object Detection System — dependencies (100% offline, no API keys)
+ultralytics>=8.0        # YOLOv8 object detection (yolov8n.pt nano model)
+opencv-python>=4.8      # webcam capture + drawing
+pyttsx3>=2.90           # offline text-to-speech for voice feedback
+numpy>=1.24             # array math
+easyocr>=1.7            # offline OCR for text-reading mode ('t' key)

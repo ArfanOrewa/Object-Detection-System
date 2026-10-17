@@ -1,0 +1,16 @@
+# Virtual environments
+venv/
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Downloaded YOLO weights (auto-downloaded on first run, ~6MB)
+*.pt
+*.onnx
+
+# OS
+.DS_Store
+Thumbs.db
