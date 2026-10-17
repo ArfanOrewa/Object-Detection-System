@@ -1,0 +1,22 @@
+# Object Detection System — dependencies for Intel Macs (x86_64)
+#
+# WHY THIS FILE EXISTS:
+# PyTorch stopped shipping macOS Intel wheels after torch 2.2.2, so the
+# regular requirements.txt cannot resolve on Intel Macs. This file pins the
+# last torch/torchvision versions that have Intel macOS wheels.
+#
+# USE WITH PYTHON 3.12 (torch 2.2.2 has no Python 3.13+ Intel wheels).
+#   python3.12 -m venv venv
+#   source venv/bin/activate
+#   pip install -r requirements-macos-intel.txt
+#   python app.py
+#
+# Apple Silicon Macs, Windows, and Linux: use requirements.txt instead.
+
+torch==2.2.2              # last torch with macOS Intel (x86_64) wheels
+torchvision==0.17.2       # must match torch 2.2.2
+numpy<2                   # torch 2.2.2 predates NumPy 2.x
+ultralytics>=8.0          # YOLOv8 object detection (yolov8n.pt nano model)
+opencv-python>=4.8        # webcam capture + drawing
+pyttsx3>=2.90             # offline text-to-speech for voice feedback
+easyocr>=1.7              # offline OCR for text-reading mode ('t' key)
